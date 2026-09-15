@@ -18,4 +18,4 @@ COPY --from=build /app/out .
 ENV ASPNETCORE_URLS=http://+:8080
 EXPOSE 8080
 
-ENTRYPOINT ["dotnet", "NOME_DO_SEU_PROJETO.dll"]
+ENTRYPOINT ["dotnet", "MedicaMais.API.dll"]
