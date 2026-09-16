@@ -22,11 +22,10 @@ namespace MedicaMais.API.Controllers
         }
 
         [HttpPost]
-        public Usuario CriarUsuario(Usuario u)
+        public Usuario CriarUsuario(Usuario usuario)
         {
-            usuarios.Add(u);
-
-            return u;
+            return usuarioService.CriarUsuario(usuario);
         }
+
     }
 }
