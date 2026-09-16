@@ -1,21 +1,25 @@
-﻿FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+﻿# Estágio de build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copia o arquivo .csproj e restaura as dependências
-COPY *.csproj ./
-RUN dotnet restore
+# Copia e restaura as dependências apontando para a subpasta
+COPY ["MedicaMais.API/MedicaMais.API.csproj", "MedicaMais.API/"]
+RUN dotnet restore "MedicaMais.API/MedicaMais.API.csproj"
 
-# Copia todo o código e compila a aplicação
-COPY . ./
-RUN dotnet publish -c Release -o /app/out
+# Copia todo o código-fonte
+COPY . .
+WORKDIR "/src/MedicaMais.API"
+RUN dotnet build "MedicaMais.API.csproj" -c Release -o /app/build
 
-# Imagem final de execução (Runtime)
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+# Publicação dos arquivos compilados
+FROM build AS publish
+RUN dotnet publish "MedicaMais.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+# Estágio final de execução (Runtime)
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
-COPY --from=build /app/out .
-
-# Define a porta padrão do ASP.NET Core
-ENV ASPNETCORE_URLS=http://+:8080
 EXPOSE 8080
+ENV ASPNETCORE_URLS=http://+:8080
 
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "MedicaMais.API.dll"]
