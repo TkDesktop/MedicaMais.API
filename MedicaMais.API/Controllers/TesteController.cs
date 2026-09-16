@@ -1,6 +1,6 @@
-﻿using MedicaMais.API.Modelos;
+﻿
+using MedicaMais.API.Modelos;
 using Microsoft.AspNetCore.Mvc;
-
 
 namespace MedicaMais.API.Controllers
 {
@@ -9,23 +9,24 @@ namespace MedicaMais.API.Controllers
     public class TesteController : ControllerBase
     {
         [HttpGet]
-        public List<Usuario> Testar()
+        public Usuario Testar()
         {
-            return usuarios;
-        }
+            Usuario u = new Usuario();
 
+            u.usuarioId = 1;
+            u.nome = "Calango";
+            u.CPF = "123.456.789-00";
 
-        [HttpPost]
-        public Usuario CriarUsuario(Usuario u)
-        {
-            usuarios.Add(u);
             return u;
-            
         }
 
-        private static List<Usuario> usuarios = new List<Usuario>();
-        
-            
-        
+        [HttpPut("{id}")]
+        public Usuario Atualizar(int id, Usuario usuario)
+        {
+            usuario.usuarioId = id;
+
+            return usuario;
+        }
     }
 }
+
