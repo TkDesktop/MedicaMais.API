@@ -1,32 +1,32 @@
-﻿
-using MedicaMais.API.Modelos;
+﻿using MedicaMais.API.Modelos;
 using Microsoft.AspNetCore.Mvc;
+using MedicaMais.API.services;
 
 namespace MedicaMais.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TesteController : ControllerBase
+    public class UsuarioController : ControllerBase
     {
-        [HttpGet]
-        public Usuario Testar()
-        {
-            Usuario u = new Usuario();
+        private readonly UsuarioService usuarioService;
 
-            u.usuarioId = 1;
-            u.nome = "Calango";
-            u.CPF = "123.456.789-00";
+        public UsuarioController()
+        {
+            usuarioService = new UsuarioService();
+        }
+
+        [HttpGet]
+        public Usuario BuscarUsuario()
+        {
+            return usuarioService.BuscarUsuario();
+        }
+
+        [HttpPost]
+        public Usuario CriarUsuario(Usuario u)
+        {
+            usuarios.Add(u);
 
             return u;
         }
-
-        [HttpPut("{id}")]
-        public Usuario Atualizar(int id, Usuario usuario)
-        {
-            usuario.usuarioId = id;
-
-            return usuario;
-        }
     }
 }
-
