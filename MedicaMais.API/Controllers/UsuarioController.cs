@@ -10,15 +10,15 @@ namespace MedicaMais.API.Controllers
     {
         private readonly UsuarioService usuarioService;
 
-        public UsuarioController()
+        public UsuarioController(UsuarioService usuarioService)
         {
-            usuarioService = new UsuarioService();
+            this.usuarioService = usuarioService;
         }
 
-        [HttpGet]
-        public Usuario BuscarUsuario()
+        [HttpGet("{id}")]
+        public Usuario BuscarUsuario(int id)
         {
-            return usuarioService.BuscarUsuario();
+            return usuarioService.BuscarUsuario(id);
         }
 
         [HttpPost]

@@ -6,11 +6,9 @@ namespace MedicaMais.API.services
     {
         private List<Usuario> usuarios = new List<Usuario>();
         
-        public Usuario BuscarUsuario()
+        public Usuario BuscarUsuario(int id)
         {
-            Usuario usuario = new Usuario();
-
-            return usuario;
+            return usuarios.FirstOrDefault(u => u.usuarioId == id);
         }
 
         public Usuario CriarUsuario(Usuario u)
