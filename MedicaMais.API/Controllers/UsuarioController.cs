@@ -15,16 +15,46 @@ namespace MedicaMais.API.Controllers
             this.usuarioService = usuarioService;
         }
 
-        [HttpGet("{id}")]
-        public Usuario BuscarUsuario(int id)
+        [HttpGet]
+       public List<Usuario> BuscarUsuarios()
         {
-            return usuarioService.BuscarUsuario(id);
+            return usuarioService.BuscarUsuarios();
         }
+        
+
+        [HttpGet("{id}")]
+        public ActionResult<Usuario> BuscarUsuario(int id)
+        {
+            Usuario usuario = usuarioService.BuscarUsuario(id);
+
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            return usuario;            
+        }
+
+
 
         [HttpPost]
         public Usuario CriarUsuario(Usuario usuario)
         {
             return usuarioService.CriarUsuario(usuario);
+        }
+
+
+        [HttpPut("{id}")]
+        public ActionResult<Usuario> AtualizarUsuario(int id, Usuario usuarioAtualizado)
+        {
+            Usuario u = usuarioService.AtualizarUsuario(id, usuarioAtualizado);
+
+            if(u == null)
+            {
+                return NotFound();
+            }
+
+            return u;
         }
 
     }
